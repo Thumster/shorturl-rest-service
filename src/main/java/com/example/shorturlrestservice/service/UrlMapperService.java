@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -49,15 +48,13 @@ public class UrlMapperService implements IUrlMapperService {
     }
 
     @Override
-    public List<UrlMapper> retrieveAllUrlMapper(){
-        return repository.findAll();
-    }
-
-    @Override
     public UrlMapper findById(String id) throws UrlNotFoundException {
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new UrlNotFoundException("Unable to find provided shortened URL")
-                );
+        UrlMapper urlMapper = repository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Unable to find provided shortened URL");
+                    return new UrlNotFoundException("Unable to find provided shortened URL");
+                });
+        log.info("Successfully found shorturl mapping: " + urlMapper.getOriginalUrl());
+        return urlMapper;
     }
 }
