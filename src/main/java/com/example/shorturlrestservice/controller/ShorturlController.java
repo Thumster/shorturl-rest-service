@@ -20,6 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RestController
 @NoArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ShorturlController {
 
     @Autowired
